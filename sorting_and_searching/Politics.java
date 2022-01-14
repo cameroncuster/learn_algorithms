@@ -4,11 +4,8 @@ import java.io.*;
 class Politics {
 	public static void main(String[] args) {
 		Scanner stdin = new Scanner(System.in);
-		int n = 1, m = 1;
-		while (n > 0 && m > 0) {
-			n = stdin.nextInt();
-			m = stdin.nextInt();
-
+		int n = stdin.nextInt(), m = stdin.nextInt();
+		do {
 			HashMap<String, Integer> candidates = new HashMap<>(n);
 			for (int i = 0; i < n; i++)
 				candidates.put(stdin.next(), i);
@@ -32,6 +29,9 @@ class Politics {
 			for (int i = 0; i < buckets.size(); i++)
 				for (String supporter : buckets.get(i))
 					System.out.println(supporter);
-		}
+
+			n = stdin.nextInt();
+			m = stdin.nextInt();
+		} while (n > 0 && m > 0);
 	}
 }
