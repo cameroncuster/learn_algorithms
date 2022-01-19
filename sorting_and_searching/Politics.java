@@ -1,3 +1,24 @@
+/*
+ *  ██████  █████  ███    ███ ███████ ██████   ██████  ███    ██      ██████ ██    ██ ███████ ████████ ███████ ██████
+ * ██      ██   ██ ████  ████ ██      ██   ██ ██    ██ ████   ██     ██      ██    ██ ██         ██    ██      ██   ██
+ * ██      ███████ ██ ████ ██ █████   ██████  ██    ██ ██ ██  ██     ██      ██    ██ ███████    ██    █████   ██████
+ * ██      ██   ██ ██  ██  ██ ██      ██   ██ ██    ██ ██  ██ ██     ██      ██    ██      ██    ██    ██      ██   ██
+ *  ██████ ██   ██ ██      ██ ███████ ██   ██  ██████  ██   ████      ██████  ██████  ███████    ██    ███████ ██   ██
+ *
+ * ██    ██  ██████ ███████
+ * ██    ██ ██      ██
+ * ██    ██ ██      █████
+ * ██    ██ ██      ██
+ *  ██████   ██████ ██
+ *
+ *  ██████ ███████ ██ ██
+ * ██      ██      ██ ██
+ * ██      ███████ ██ ██
+ * ██           ██ ██ ██
+ *  ██████ ███████ ██ ██
+ *
+ */
+
 import java.util.*;
 import java.io.*;
 
@@ -6,10 +27,12 @@ class Politics {
 		Scanner stdin = new Scanner(System.in);
 		int n = stdin.nextInt(), m = stdin.nextInt();
 		do {
+			// capture the candidates
 			HashMap<String, Integer> candidates = new HashMap<>(n);
 			for (int i = 0; i < n; i++)
 				candidates.put(stdin.next(), i);
 
+			// prepare empty buckets
 			ArrayList<ArrayList<String>> buckets = new ArrayList<>(n);
 			for (int i = 0; i < n; i++)
 				buckets.add(new ArrayList<>());
@@ -23,6 +46,7 @@ class Politics {
 					buckets.add(new ArrayList<>());
 				}
 
+				// fill the buckets
 				buckets.get(candidates.get(candidate)).add(supporter);
 			}
 
