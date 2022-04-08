@@ -1,6 +1,28 @@
+/*
+ *  ██████  █████  ███    ███ ███████ ██████   ██████  ███    ██      ██████ ██    ██ ███████ ████████ ███████ ██████
+ * ██      ██   ██ ████  ████ ██      ██   ██ ██    ██ ████   ██     ██      ██    ██ ██         ██    ██      ██   ██
+ * ██      ███████ ██ ████ ██ █████   ██████  ██    ██ ██ ██  ██     ██      ██    ██ ███████    ██    █████   ██████
+ * ██      ██   ██ ██  ██  ██ ██      ██   ██ ██    ██ ██  ██ ██     ██      ██    ██      ██    ██    ██      ██   ██
+ *  ██████ ██   ██ ██      ██ ███████ ██   ██  ██████  ██   ████      ██████  ██████  ███████    ██    ███████ ██   ██
+ *
+ * ██    ██  ██████ ███████
+ * ██    ██ ██      ██
+ * ██    ██ ██      █████
+ * ██    ██ ██      ██
+ *  ██████   ██████ ██
+ *
+ *  ██████ ███████ ██ ██
+ * ██      ██      ██ ██
+ * ██      ███████ ██ ██
+ * ██           ██ ██ ██
+ *  ██████ ███████ ██ ██
+ *
+ */
+
 import java.io.*;
 import java.util.*;
 
+// polynomial class
 class poly {
 	private int length;
 	private long coeff[];
@@ -80,31 +102,38 @@ class poly {
 		return new poly(Arrays.copyOfRange(coeff, length >> 1, length));
 	}
 
+	// 4 IO
 	static final FS in = new FS();
 	static final PrintWriter out = new PrintWriter(System.out);
 
+	// prints the coefficients
 	public void print() {
 		for (int i = 0; i < length - 1; i++)
 			out.println(coeff[i]);
 	}
 
+	// the main func
 	public static void main(String args[]) {
 		int n = in.nextInt();
 		long coeff[] = new long[1 << n];
 		for (int i = 0; i < (1 << n); i++)
 			coeff[i] = in.nextLong();
 
+		// instantiate the first polynomial
 		poly a = new poly(coeff);
 
 		for (int i = 0; i < (1 << n); i++)
 			coeff[i] = in.nextLong();
 
+		// instantiate the second polynomial
 		poly b = new poly(coeff);
 
+		// output the product
 		a.mult(b).print();
 		out.close();
 	}
 
+	// fast IO
 	public static class FS {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer("");
