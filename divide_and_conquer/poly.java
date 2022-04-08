@@ -47,7 +47,7 @@ class poly {
 	// poly, using Karatsuba’s algorithm, with the
 	// length being the next power of 2.
 	public poly mult(poly other) {
-		if (length <= 4)
+		if (length < 32)
 			return multSlow(other);
 
 		// Two recursive cases for "low" half and "high" half of poly.
