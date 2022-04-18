@@ -26,13 +26,15 @@ import java.util.*;
 class poly {
 	private int length;
 	private long coeff[];
+
 	// Creates a polynomial from the coefficients stored in vals.
 	// The polynomial created must store exactly (1<<k) coefficients
 	// for some integer k.
 	public poly(long[] vals) {
 		length = vals.length;
-		coeff = Arrays.copyOf(vals, length);
+		coeff = vals;
 	}
+
 	// Both this and other must be of the same size and the
 	// corresponding lengths must be powers of 2.
 	// Returns the sum of this and other in a newly created poly.
@@ -42,6 +44,7 @@ class poly {
 			vals[i] = coeff[i] + other.coeff[i];
 		return new poly(vals);
 	}
+
 	// Both this and other must be of the same size and the
 	// corresponding lengths must be powers of 2.
 	// Returns the difference of this and other in a new poly.
@@ -51,6 +54,7 @@ class poly {
 			vals[i] = coeff[i] - other.coeff[i];
 		return new poly(vals);
 	}
+
 	// Both this and other must be of the same size and the
 	// corresponding lengths must be powers of 2.
 	// Returns the product of this and other in a newly created
@@ -63,6 +67,7 @@ class poly {
 				vals[i + j] += coeff[i] * other.coeff[j];
 		return new poly(vals);
 	}
+
 	// Both this and other must be of the same size and the
 	// corresponding lengths must be powers of 2.
 	// Returns the product of this and other in a newly created
@@ -93,10 +98,12 @@ class poly {
 			vals[i + (length >> 1)] += midRec.coeff[i];
 		return new poly(vals);
 	}
+
 	// Returns the left half of this poly in its own poly.
 	private poly getLeft() {
 		return new poly(Arrays.copyOf(coeff, length >> 1));
 	}
+
 	// Returns the right half of this poly in its own poly.
 	private poly getRight() {
 		return new poly(Arrays.copyOfRange(coeff, length >> 1, length));
@@ -115,18 +122,19 @@ class poly {
 	// the main func
 	public static void main(String args[]) {
 		int n = in.nextInt();
-		long coeff[] = new long[1 << n];
+		long c[] = new long[1 << n];
 		for (int i = 0; i < (1 << n); i++)
-			coeff[i] = in.nextLong();
+			c[i] = in.nextLong();
 
 		// instantiate the first polynomial
-		poly a = new poly(coeff);
+		poly a = new poly(c);
 
+		long d[] = new long[1 << n];
 		for (int i = 0; i < (1 << n); i++)
-			coeff[i] = in.nextLong();
+			d[i] = in.nextLong();
 
 		// instantiate the second polynomial
-		poly b = new poly(coeff);
+		poly b = new poly(d);
 
 		// output the product
 		a.mult(b).print();
