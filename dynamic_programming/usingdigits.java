@@ -42,97 +42,42 @@ class usingdigits {
 		for (int i = Y-1; i >= 0; i--)
 			grid[i] = cin.next().toCharArray();
 
-		// pq of states
-		PriorityQueue<State> pq = new PriorityQueue();
-
 		// init max
 		int dist[][][] = new int[Y][X][Z+1];
 		for (int i = 0; i < Y; i++)
 			for (int j = 0; j < X; j++)
 				Arrays.fill(dist[i][j], Integer.MAX_VALUE);
 
-		// source
+		// base case
 		dist[0][0][0] = Character.getNumericValue(grid[0][0]);
-		pq.add(new State(0, 0, 0, dist[0][0][0]));
 
-		// search
-		while (!pq.isEmpty()) {
-			State p = pq.poll();
+		for (int i = 0; i < Y; i++) {
+			for (int j = 0; j < X; j++) {
+				for (int k = 0; k <= Z; k++) {
+					int w = Character.getNumericValue(grid[i][j]);
 
-			int i = p.i;
-			int j = p.j;
-			int k = p.k;
+					// regular transitions
+					if (i-1 >= 0 && dist[i-1][j][k] != Integer.MAX_VALUE && dist[i-1][j][k] + w < dist[i][j][k])
+						dist[i][j][k] = dist[i-1][j][k] + w;
 
-			// ignore
-			if (p.w > dist[i][j][k])
-				continue;
+					if (j-1 >= 0 && dist[i][j-1][k] != Integer.MAX_VALUE && dist[i][j-1][k] + w < dist[i][j][k])
+						dist[i][j][k] = dist[i][j-1][k] + w;
 
-			// regular transitions
-			if (j+1 < X) {
-				int w = Character.getNumericValue(grid[i][j+1]);
-				if (dist[i][j][k] + w < dist[i][j+1][k]) {
-					dist[i][j+1][k] = dist[i][j][k] + w;
-					pq.add(new State(i, j+1, k, dist[i][j+1][k]));
-				}
-			}
+					if (k == Z) continue;
 
-			if (i+1 < Y) {
-				int w = Character.getNumericValue(grid[i+1][j]);
-				if (dist[i][j][k] + w < dist[i+1][j][k]) {
-					dist[i+1][j][k] = dist[i][j][k] + w;
-					pq.add(new State(i+1, j, k, dist[i+1][j][k]));
-				}
-			}
+					// use a digit transitions
+					int t = Character.getNumericValue(key[k])+1;
 
-			// continue if no digits are remaining
-			if (k >= Z) continue;
+					if (j-t >= 0 && dist[i][j-t][k] != Integer.MAX_VALUE && dist[i][j-t][k] + w < dist[i][j][k+1])
+						dist[i][j][k+1] = dist[i][j-t][k] + w;
 
-			// use a digit transitions
-			int t = Character.getNumericValue(key[k])+1;
-			if (j+t < X) {
-				int w = Character.getNumericValue(grid[i][j+t]);
-				if (dist[i][j][k] + w < dist[i][j+t][k+1]) {
-					dist[i][j+t][k+1] = dist[i][j][k] + w;
-					pq.add(new State(i, j+t, k+1, dist[i][j+t][k+1]));
-				}
-			}
-
-			if (i+t < Y) {
-				int w = Character.getNumericValue(grid[i+t][j]);
-				if (dist[i][j][k] + w < dist[i+t][j][k+1]) {
-					dist[i+t][j][k+1] = dist[i][j][k] + w;
-					pq.add(new State(i+t, j, k+1, dist[i+t][j][k+1]));
+					if (i-t >= 0 && dist[i-t][j][k] != Integer.MAX_VALUE && dist[i-t][j][k] + w < dist[i][j][k+1])
+						dist[i][j][k+1] = dist[i-t][j][k] + w;
 				}
 			}
 		}
 
-		// result
-		int ans = Integer.MAX_VALUE;
-		for (int k = 0; k <= Z; k++)
-			ans = Integer.min(ans, dist[Y-1][X-1][k]);
-
-		// output
-		System.out.println(ans);
-	}
-
-	// state class
-	static class State implements Comparable<State> {
-		public int i;
-		public int j;
-		public int k;
-		public int w;
-
-		// constructor
-		public State(int i, int j, int k, int w) {
-			this.i = i;
-			this.j = j;
-			this.k = k;
-			this.w = w;
-		}
-
-		// compare
-		public int compareTo(State o) {
-			return w-o.w;
-		}
+		// get the answer
+		System.out.println(Arrays.stream(dist[Y-1][X-1]).min().getAsInt());
 	}
 }
